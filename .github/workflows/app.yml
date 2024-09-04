@@ -20,14 +20,10 @@ jobs:
           node-version: 18.x
 
       - name: Install Dependencies
-        run: |
-          cd todo
-          npm install
+        run: npm install
 
       - name: Run Unit Tests
-        run: |
-          cd todo
-          npm test -- --watchAll=false # Run
+        run:  npm test -- --watchAll=false # Run
 
   
   # Build Job
@@ -43,20 +39,16 @@ jobs:
           node-version: 18.x
 
       - name: Install Dependencies
-        run: |
-          cd todo
-          npm install
+        run:  npm install
 
       - name: Build Project
-        run: |
-          cd todo
-          npm run build
+        run: npm run build
 
       - name: Upload artifact to enable deployment
         uses: actions/upload-artifact@v3
         with:
           name: poduction file
-          path: ./todo/build
+          path: ./build
 
   # Deploy Job
   deploy:
@@ -69,10 +61,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: poduction file
-          path: ./todo/build
+          path: ./build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.KEY }} #this is the key of the access token
-          publish_dir: ./todo/build
+          publish_dir: ./build
